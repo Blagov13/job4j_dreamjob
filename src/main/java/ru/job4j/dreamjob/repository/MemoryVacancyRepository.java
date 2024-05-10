@@ -19,12 +19,12 @@ public class MemoryVacancyRepository implements VacancyRepository {
     private final Map<Integer, Vacancy> vacancies = new ConcurrentHashMap<>();
 
     private MemoryVacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "low income", LocalDateTime.now()));
-        save(new Vacancy(0, "Junior Java Developer", "slightly more earnings", LocalDateTime.now()));
-        save(new Vacancy(0, "Junior+ Java Developer", "earnings above average", LocalDateTime.now()));
-        save(new Vacancy(0, "Middle Java Developer", "earnings are enough for food", LocalDateTime.now()));
-        save(new Vacancy(0, "Middle+ Java Developer", "enough money for rent", LocalDateTime.now()));
-        save(new Vacancy(0, "Senior Java Developer", "You can already live on this money", LocalDateTime.now()));
+        save(new Vacancy(0, "Intern Java Developer", "low income", LocalDateTime.now(), true));
+        save(new Vacancy(0, "Junior Java Developer", "slightly more earnings", LocalDateTime.now(), false));
+        save(new Vacancy(0, "Junior+ Java Developer", "earnings above average", LocalDateTime.now(), true));
+        save(new Vacancy(0, "Middle Java Developer", "earnings are enough for food", LocalDateTime.now(), false));
+        save(new Vacancy(0, "Middle+ Java Developer", "enough money for rent", LocalDateTime.now(), true));
+        save(new Vacancy(0, "Senior Java Developer", "You can already live on this money", LocalDateTime.now(), false));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MemoryVacancyRepository implements VacancyRepository {
     @Override
     public boolean update(Vacancy vacancy) {
         return vacancies.computeIfPresent(vacancy.getId(),
-                (id, oldVacancy) -> new Vacancy(oldVacancy.getId(), vacancy.getTitle(), vacancy.getDescription(), oldVacancy.getCreationDate())) != null;
+                (id, oldVacancy) -> new Vacancy(oldVacancy.getId(), vacancy.getTitle(), vacancy.getDescription(), oldVacancy.getCreationDate(), vacancy.getVisible())) != null;
     }
 
     @Override
