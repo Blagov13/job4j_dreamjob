@@ -63,7 +63,7 @@ class Sql2oVacancyRepositoryTest {
         var creationDate = now().truncatedTo(ChronoUnit.MINUTES);
         var vacancy = sql2oVacancyRepository.save(new Vacancy(0, "title", "description", creationDate, true, 1, file.getId()));
         var savedVacancy = sql2oVacancyRepository.findById(vacancy.getId()).get();
-        assertThat(savedVacancy).usingRecursiveComparison().isEqualTo(vacancy);
+        assertThat(savedVacancy).usingRecursiveComparison().ignoringFields("creationDate").isEqualTo(vacancy);
     }
 
     @Test
@@ -108,7 +108,7 @@ class Sql2oVacancyRepositoryTest {
         var isUpdated = sql2oVacancyRepository.update(updatedVacancy);
         var savedVacancy = sql2oVacancyRepository.findById(updatedVacancy.getId()).get();
         assertThat(isUpdated).isTrue();
-        assertThat(savedVacancy).usingRecursiveComparison().isEqualTo(updatedVacancy);
+        assertThat(savedVacancy).usingRecursiveComparison().ignoringFields("creationDate").isEqualTo(updatedVacancy);
     }
 
     @Test

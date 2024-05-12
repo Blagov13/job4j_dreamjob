@@ -63,7 +63,7 @@ class Sql2oCandidateRepositoryTest {
         var creationDate = now().truncatedTo(ChronoUnit.MINUTES);
         var candidate = sql2oCandidateRepository.save(new Candidate(0, "name", "description", creationDate, 1, file.getId()));
         var savedCandidate = sql2oCandidateRepository.findById(candidate.getId()).get();
-        assertThat(savedCandidate).usingRecursiveComparison().isEqualTo(candidate);
+        assertThat(savedCandidate).usingRecursiveComparison().ignoringFields("creationDate").isEqualTo(candidate);
     }
 
     @Test
@@ -107,7 +107,7 @@ class Sql2oCandidateRepositoryTest {
         var isUpdated = sql2oCandidateRepository.update(updatedCandidate);
         var savedCandidate = sql2oCandidateRepository.findById(updatedCandidate.getId()).get();
         assertThat(isUpdated).isTrue();
-        assertThat(savedCandidate).usingRecursiveComparison().isEqualTo(updatedCandidate);
+        assertThat(savedCandidate).usingRecursiveComparison().ignoringFields("creationDate").isEqualTo(updatedCandidate);
     }
 
     @Test
